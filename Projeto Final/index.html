@@ -25,30 +25,30 @@
     </div>
     <div id="subscription-form">
         <p>Entre em Contato</p>
-        <form action="">
-            <div class="form-group">
-                <label for="name">Nome</label>
-                <input type="text" placeholder="Digite seu nome">
-            </div>
-            <div class="form-group">
-                <label for="email">E-mail</label>
-                <input type="text" placeholder="Digite seu email">
-            </div>
-            <div class="form-group">
-                <label for="phone">WhatsApp</label>
-                <input type="text" placeholder="Digite seu telefone">
-            </div>
-            <div class="form-group">
-                    <label for="interest">interesse</label>
-                    <select name="interest">
-                        <option value="" disabled selected>Selecione</option>
-                            <option value="1" >Contratação</option>
-                            <option value="2" >Freelance</option>
-                            <option value="3" >Mentoria</option>
-                    </select>
-            </div>           
-            <input type="submit" class="btn" value="Enviar">
-        </form>
+        <form action="" id="form-contato">
+          <div class="form-group">
+              <label for="name">Nome</label>
+              <input type="text" name="nome" placeholder="Digite seu nome" required>
+          </div>
+          <div class="form-group">
+              <label for="email">E-mail</label>
+              <input type="text" name="email" placeholder="Digite seu email" required>
+          </div>
+          <div class="form-group">
+              <label for="phone">WhatsApp</label>
+              <input type="text" name="telefone" placeholder="Digite seu telefone">
+          </div>
+          <div class="form-group">
+                  <label for="interest">interesse</label>
+                  <select name="interesse" required>
+                      <option value="" disabled selected>Selecione</option>
+                      <option value="Contratacao">Contratação</option>
+                      <option value="Freelance">Freelance</option>
+                      <option value="Mentoria">Mentoria</option>
+                  </select>
+          </div>           
+          <input type="submit" class="btn" value="Enviar">
+      </form>
     </div>
 </header>
 <!--SECTION TECHNOLOGYS-->
@@ -172,5 +172,33 @@
         </p>
         </footer>
     
+
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script type="text/javascript">
+   (function(){
+      // COLOCAR SUA PUBLIC KEY AQUI
+      emailjs.init("d5WzV4zzQUk85srqb");
+   })();
+
+   document.getElementById('form-contato').addEventListener('submit', function(event) {
+     event.preventDefault(); // Impede a página de recarregar e estragar a animação
+
+     const btn = this.querySelector('input[type="submit"]');
+     const valorOriginal = btn.value;
+     btn.value = 'Enviando...'; // Feedback visual no botão (sem mudar CSS)
+
+     // Envia usando os IDs do seu painel EmailJS
+     emailjs.sendForm('service_dqkjl4h', 'template_mzx9e5i', this)
+        .then(function() {
+            alert('Mensagem enviada com sucesso!');
+            btn.value = valorOriginal;
+            document.getElementById('form-contato').reset(); // Limpa os campos
+        }, function(error) {
+            alert('Erro ao enviar: ' + JSON.stringify(error));
+            btn.value = valorOriginal;
+        });
+   });
+</script>
 </body>
 </html>
